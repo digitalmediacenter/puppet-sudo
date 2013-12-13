@@ -1,3 +1,6 @@
+###############################################################################
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+
 ## Sudoers allows particular users to run various commands as
 ## the root user, without needing the root password.
 ##
@@ -113,3 +116,6 @@ root	ALL=(ALL) 	ALL
 
 ## Read drop-in files from /etc/sudoers.d (the # here does not mean a comment)
 #includedir /etc/sudoers.d
+
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+###############################################################################

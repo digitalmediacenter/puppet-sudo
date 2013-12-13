@@ -1,3 +1,6 @@
+###############################################################################
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+
 ## sudoers file.
 ##
 ## This file MUST be edited with the 'visudo' command as root.
@@ -88,3 +91,6 @@
 ## Read drop-in files from /opt/sfw/etc/sudoers.d
 ## (the '#' here does not indicate a comment)
 #includedir /etc/sudoers.d
+
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+###############################################################################
