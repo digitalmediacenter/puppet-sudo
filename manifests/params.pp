@@ -68,7 +68,7 @@ class sudo::params {
               $config_file_group = 'root'
             }
             default: {
-              fail("Unsupported platform: ${::osfamily}/${::operatingsystem}/${kernelrelease}")
+              fail("Unsupported platform: ${::osfamily}/${::operatingsystem}/${::kernelrelease}")
             }
           }
         }
