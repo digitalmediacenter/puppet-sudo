@@ -59,12 +59,14 @@ Cmnd_Alias DRIVERS = /sbin/modprobe
 Defaults    requiretty
 
 Defaults    env_reset
+Defaults    mail_badpass
 Defaults    env_keep = "COLORS DISPLAY HOSTNAME HISTSIZE INPUTRC KDEDIR \
                         LS_COLORS MAIL PS1 PS2 QTDIR USERNAME \
                         LANG LC_ADDRESS LC_CTYPE LC_COLLATE LC_IDENTIFICATION \
                         LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC \
                         LC_PAPER LC_TELEPHONE LC_TIME LC_ALL LANGUAGE LINGUAS \
-                        _XKB_CHARSET XAUTHORITY"
+                        _XKB_CHARSET XAUTHORITY SSH_AUTH_SOCK"
+Defaults    secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 ## Next comes the main part: which users can run what software on
 ## which machines (the sudoers file can be shared between multiple

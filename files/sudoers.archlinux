@@ -37,6 +37,10 @@
 ## You may wish to keep some of the following environment variables
 ## when running commands via sudo.
 ##
+Defaults  env_reset
+Defaults  mail_badpass
+Defaults  secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Defaults  env_keep += "SSH_AUTH_SOCK"
 ## Locale settings
 # Defaults env_keep += "LANG LANGUAGE LINGUAS LC_* _XKB_CHARSET"
 ##
