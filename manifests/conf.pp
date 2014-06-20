@@ -59,7 +59,15 @@ define sudo::conf(
   Class['sudo'] -> Sudo::Conf[$name]
 
   if $content != undef {
-    $content_real = "${content}\n"
+    if $content =~ /MANAGED BY PUPPET/ {
+      $content_real = "${content}\n"
+    } else {
+      $content_real = "###############################################################################
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+${content}
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+###############################################################################\n"
+    }
   } else {
     $content_real = undef
   }
@@ -75,7 +83,7 @@ define sudo::conf(
     mode    => '0440',
     source  => $source,
     content => $content_real,
-    notify => $ensure ? {
+    notify  => $ensure ? {
       'present' => Exec["sudo-syntax-check for file ${sudo_config_dir_real}${priority}_${dname}"],
       default   => undef,
     },
