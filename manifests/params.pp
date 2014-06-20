@@ -61,9 +61,11 @@ class sudo::params {
               $config_file_group = 'root'
             }
             '5.10': {
-              $package = 'SFWsudo'
-              $config_file = '/opt/sfw/etc/sudoers'
-              $config_dir = '/opt/sfw/etc/sudoers.d/'
+              $package = 'TCMsudo'
+              $package_source = 'http://www.sudo.ws/sudo/dist/packages/Solaris/10/TCMsudo-1.8.9p5-i386.pkg.gz'
+              $package_admin_file = '/var/sadm/install/admin/puppet'
+              $config_file = '/etc/sudoers'
+              $config_dir = '/etc/sudoers.d/'
               $source = "${source_base}sudoers.solaris"
               $config_file_group = 'root'
             }
@@ -83,7 +85,7 @@ class sudo::params {
     }
     aix: {
       $package = 'sudo'
-      $package_source = 'http://www.oss4aix.org/compatible/aix53/sudo-1.8.7-1.aix5.1.ppc.rpm'
+      $package_source = 'http://www.sudo.ws/sudo/dist/packages/AIX/5.3/sudo-1.8.9-6.aix53.lam.rpm'
       $config_file = '/etc/sudoers'
       $config_dir = '/etc/sudoers.d/'
       $source = "${source_base}sudoers.aix"
@@ -103,6 +105,17 @@ class sudo::params {
           $config_file = '/etc/sudoers'
           $config_dir = '/etc/sudoers.d/'
           $source = "${source_base}sudoers.archlinux"
+          $config_file_group = 'root'
+        }
+        amazon: {
+          $package = 'sudo'
+          $config_file = '/etc/sudoers'
+          $config_dir = '/etc/sudoers.d/'
+          $source = $::operatingsystemrelease ? {
+            /^5/    => "${source_base}sudoers.rhel5",
+            /^6/    => "${source_base}sudoers.rhel6",
+            default => "${source_base}sudoers.rhel6",
+          }
           $config_file_group = 'root'
         }
         default: {

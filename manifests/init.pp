@@ -7,25 +7,38 @@
 #     Ensure if present or absent.
 #     Default: present
 #
-#   [*autoupgrade*]
-#     Upgrade package automatically, if there is a newer version.
-#     Default: false
-#
 #   [*package*]
 #     Name of the package.
 #     Only set this, if your platform is not supported or you know,
 #     what you're doing.
 #     Default: auto-set, platform specific
 #
+#   [*package_ensure*]
+#     Allows you to ensure a particular version of a package
+#     Default: present
+#
 #   [*package_source*]
-#     Where to find the package.
-#     Only set this on AIX (required) or if your platform is not supported or you know,
-#     what you're doing.
-#     Default: auto-set
+#     Where to find the package.  Only set this on AIX (required) and
+#     Solaris (required) or if your platform is not supported or you
+#     know, what you're doing.
+#
+#     The default for aix is the perzl sudo package. For solaris 10 we
+#     use the official www.sudo.ws binary package.
+#
+#     Default: AIX: perzl.org
+#              Solaris: www.sudo.ws
+#
+#   [*package_admin_file*]
+#     Where to find a Solaris 10 package admin file for
+#     an unattended installation. We do not supply a default file, so
+#     this has to be staged separately
+#
+#     Only set this on Solaris 10 (required)
+#     Default: /var/sadm/install/admin/puppet
 #
 #   [*purge*]
 #     Whether or not to purge sudoers.d directory
-#     Default: false
+#     Default: true
 #
 #   [*config_file*]
 #     Main configuration file.
@@ -35,7 +48,7 @@
 #
 #   [*config_file_replace*]
 #     Replace configuration file with that one delivered with this module
-#     Default: false
+#     Default: true
 #
 #   [*config_dir*]
 #     Main configuration directory
@@ -60,43 +73,40 @@
 #
 # [Remember: No empty lines between comments and class definition]
 class sudo(
-  $ensure = 'present',
-  $autoupgrade = false,
-  $package = $sudo::params::package,
-  $package_source = $sudo::params::package_source,
-  $purge = false,
-  $config_file = $sudo::params::config_file,
-  $config_file_replace = false,
-  $config_dir = $sudo::params::config_dir,
-  $source = $sudo::params::source
+  $enable              = true,
+  $package             = $sudo::params::package,
+  $package_ensure      = present,
+  $package_source      = $sudo::params::package_source,
+  $package_admin_file  = $sudo::params::package_admin_file,
+  $purge               = true,
+  $config_file         = $sudo::params::config_file,
+  $config_file_replace = true,
+  $config_dir          = $sudo::params::config_dir,
+  $source              = $sudo::params::source
 ) inherits sudo::params {
 
-  case $ensure {
-    /(present)/: {
-      $dir_ensure = 'directory'
-      if $autoupgrade == true {
-        $package_ensure = 'latest'
-      } else {
-        $package_ensure = 'present'
-      }
+
+  validate_bool($enable)
+  case $enable {
+    true: {
+      $dir_ensure  = 'directory'
+      $file_ensure = 'present'
     }
-    /(absent)/: {
-      $package_ensure = 'absent'
-      $dir_ensure = 'absent'
-    }
-    default: {
-      fail('ensure parameter must be present or absent')
+    false: {
+      $dir_ensure  = 'absent'
+      $file_ensure = 'absent'
     }
   }
 
   class { 'sudo::package':
-    package        => $package,
-    package_ensure => $package_ensure,
-    package_source => $package_source,
+    package            => $package,
+    package_ensure     => $package_ensure,
+    package_source     => $package_source,
+    package_admin_file => $package_admin_file,
   }
 
   file { $config_file:
-    ensure  => $ensure,
+    ensure  => $file_ensure,
     owner   => 'root',
     group   => $sudo::params::config_file_group,
     mode    => '0440',
@@ -114,4 +124,28 @@ class sudo(
     purge   => $purge,
     require => Package[$package],
   }
+
+  if $config_file_replace == false and $::osfamily == 'RedHat' and $::operatingsystemmajrelease == '5' {
+    augeas { 'includedirsudoers':
+      changes => ['set /files/etc/sudoers/#includedir /etc/sudoers.d'],
+      incl => "$config_file",
+      lens => 'FixedSudoers.lns',
+    }
+  }
+
+  # Load the Hiera based sudoer configuration (if enabled and present)
+  #
+  # NOTE: We must use 'include' here to avoid circular dependencies with
+  #     sudo::conf
+  #
+  # NOTE: There is no way to detect the existence of hiera. This automatic
+  #   functionality is therefore made exclusive to Puppet 3+ (hiera is embedded)
+  #   in order to preserve backwards compatibility.
+  #
+  #   http://projects.puppetlabs.com/issues/12345
+  #
+  if (versioncmp($::puppetversion, '3') != -1) {
+    include 'sudo::configs'
+  }
+
 }

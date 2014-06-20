@@ -31,8 +31,9 @@
 #
 class sudo::package(
   $package,
-  $package_ensure = 'present',
+  $package_ensure = present,
   $package_source = '',
+  $package_admin_file = '',
   ) {
 
     case $::osfamily {
@@ -43,10 +44,19 @@ class sudo::package(
           package_ensure  => $package_ensure,
         }
       }
-      default: {
-        package { $package:
-          ensure => $package_ensure,
-        }
+    }
+    solaris: {
+      class { 'sudo::package::solaris':
+        package            => $package,
+        package_source     => $package_source,
+        package_ensure     => $package_ensure,
+        package_admin_file => $package_admin_file,
       }
     }
+    default: {
+      package { $package:
+        ensure => $package_ensure,
+      }
+    }
+  }
 }
