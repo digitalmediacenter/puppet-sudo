@@ -36,13 +36,12 @@ class sudo::package(
   $package_admin_file = '',
   ) {
 
-    case $::osfamily {
-      aix: {
-        class { 'sudo::package::aix':
-          package         => $package,
-          package_source  => $package_source,
-          package_ensure  => $package_ensure,
-        }
+  case $::osfamily {
+    aix: {
+      class { 'sudo::package::aix':
+        package         => $package,
+        package_source  => $package_source,
+        package_ensure  => $package_ensure,
       }
     }
     solaris: {
