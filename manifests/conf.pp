@@ -78,12 +78,13 @@ define sudo::conf(
   if $content != undef {
     if is_array($content) {
       $lines = join($content, "\n")
-      $content_real = "${lines}\n"
+      $content_tmp = "${lines}\n"
     } else {
-      $content_real = "${content}\n"
+      $content_tmp = "${content}\n"
     }
+    $content_real = template('sudo/sudoers.d.erb')
   } else {
-    $content_real = undef
+    $content_tmp = undef
   }
 
   if $ensure == 'present' {
