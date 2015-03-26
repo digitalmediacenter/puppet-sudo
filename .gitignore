@@ -1,4 +1,4 @@
 pkg/
 *.swp
-metadata.json
 spec/fixtures/
+.vagrant/

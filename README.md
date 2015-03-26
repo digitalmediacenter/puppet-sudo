@@ -1,4 +1,5 @@
 # puppet-sudo [![Build Status](https://secure.travis-ci.org/saz/puppet-sudo.png)](http://travis-ci.org/saz/puppet-sudo)
+https://github.com/saz/puppet-sudo
 
 Manage sudo configuration via Puppet
 
@@ -166,6 +167,7 @@ sudo::conf { "foreman-proxy":
 | package_ensure      | string  | present     | latest, absent, or a specific package version |
 | package_source      | string  | OS specific | Set package source _(for unsupported platforms)_ |
 | purge               | boolean | true        | Purge unmanaged files from config_dir |
+| purge_ignore        | string  | undef       | Files excluded from purging in config_dir |
 | config_file         | string  | OS specific | Set config_file _(for unsupported platforms)_ |
 | config_file_replace | boolean | true        | Replace config file with module config file |
 | config_dir          | string  | OS specific | Set config_dir _(for unsupported platforms)_ |

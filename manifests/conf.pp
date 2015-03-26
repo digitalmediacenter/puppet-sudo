@@ -71,19 +71,16 @@ define sudo::conf(
 
   if $::osfamily == 'RedHat' {
     if (versioncmp($::sudoversion, '1.7.2p1') < 0) {
-      warning("Found sudo with version $::sudoversion, but at least version 1.7.2p1 is required!")
+      warning("Found sudo with version ${::sudoversion}, but at least version 1.7.2p1 is required!")
     }
   }
 
   if $content != undef {
-    if $content =~ /MANAGED BY PUPPET/ {
-      $content_real = "${content}\n"
+    if is_array($content) {
+      $lines = join($content, "\n")
+      $content_real = "${lines}\n"
     } else {
-      $content_real = "###############################################################################
-###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
-${content}
-###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
-###############################################################################\n"
+      $content_real = "${content}\n"
     }
   } else {
     $content_real = undef
@@ -107,7 +104,7 @@ ${content}
   }
 
   exec {"sudo-syntax-check for file ${cur_file}":
-    command     => "visudo -c || ( rm -f '${cur_file}' && exit 1)",
+    command     => "visudo -c -f ${cur_file} || ( rm -f '${cur_file}' && exit 1)",
     refreshonly => true,
     path        => [
       '/bin',
