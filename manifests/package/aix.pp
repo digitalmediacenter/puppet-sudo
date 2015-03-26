@@ -39,8 +39,8 @@ class sudo::package::aix (
   ) {
 
     package { $package:
-      ensure    => $package_ensure,
-      source    => $package_source,
-      provider  => rpm,
+      ensure   => $package_ensure,
+      source   => $package_source,
+      provider => rpm,
     }
 }
