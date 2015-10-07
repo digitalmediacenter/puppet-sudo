@@ -1,0 +1,19 @@
+###############################################################################
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+
+dmc ALL=(ALL) NOPASSWD: /usr/sbin/eserver1
+dmc ALL=(ALL) NOPASSWD: /usr/sbin/eserver2
+dmc ALL=(ALL) NOPASSWD: /bin/su - isas1*
+dmc ALL=(ALL) NOPASSWD: /bin/su - isas2*
+isas1 ALL=(ALL) NOPASSWD: /usr/sbin/eserver1
+isas1 ALL=(ALL) NOPASSWD: /bin/su - isas1*
+isas1 ALL=(ALL) NOPASSWD: /bin/su - iswa1*
+isas1 ALL=(ALL) NOPASSWD: /bin/su - isas2*
+iswa1 ALL=(ALL) NOPASSWD: /usr/sbin/eserver1
+isas2 ALL=(ALL) NOPASSWD: /usr/sbin/eserver2
+isas2 ALL=(ALL) NOPASSWD: /bin/su - isas1*
+isas2 ALL=(ALL) NOPASSWD: /bin/su - isas2*
+iswa2 ALL=(ALL) NOPASSWD: /usr/sbin/eserver2
+
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+###############################################################################

@@ -1,0 +1,7 @@
+###############################################################################
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+
+dmc     ALL=NOPASSWD: /etc/init.d/c_tomcat-walz-vpp-l01
+
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+###############################################################################

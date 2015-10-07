@@ -1,0 +1,7 @@
+###############################################################################
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+
+dmc  ALL=NOPASSWD: /etc/init.d/memcached
+
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+###############################################################################

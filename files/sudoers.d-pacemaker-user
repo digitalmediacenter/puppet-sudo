@@ -1,0 +1,7 @@
+###############################################################################
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+
+dmc  ALL=NOPASSWD: /usr/local/bin/pacemaker-user
+
+###      THIS FILE IS MANAGED BY PUPPET - ALL CHANGES WILL BE REVERTED      ###
+###############################################################################

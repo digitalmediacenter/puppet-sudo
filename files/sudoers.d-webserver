@@ -5,6 +5,7 @@ dmc     ALL=NOPASSWD: /etc/init.d/apache2
 dmc     ALL=NOPASSWD: /etc/init.d/apache2_cust
 dmc     ALL=NOPASSWD: /usr/sbin/rcapache2_cust
 dmc     ALL=NOPASSWD: /etc/init.d/tomcat-servers
+dmc     ALL=NOPASSWD: /etc/init.d/tomcat-*
 dmc     ALL=NOPASSWD: /etc/init.d/hybris-servers
 dmc     ALL=NOPASSWD: /etc/init.d/varnish*
 dmc     ALL=NOPASSWD: /usr/bin/varnish*
